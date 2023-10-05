@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Makro
+ * @author Makro-andrea
  *
  */
 module bomberman {
