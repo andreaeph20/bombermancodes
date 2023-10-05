@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author Makro
+ *
+ */
+module bomberman {
+}
