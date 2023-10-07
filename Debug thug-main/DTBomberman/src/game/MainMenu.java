@@ -11,13 +11,13 @@ public class MainMenu extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Create a JPanel for the menu with no layout manager
+       
         JPanel menuPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load and draw the background image
-                ImageIcon backgroundImage = new ImageIcon("background.jpg"); // Replace with your image file path
+                ImageIcon backgroundImage = new ImageIcon("Bombingman.png"); 
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
