@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -21,15 +24,16 @@ public class MainMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Load background image
-        ImageIcon backgroundImage = new ImageIcon("background.png");
-        JLabel backgroundLabel = new JLabel(backgroundImage);
-        backgroundLabel.setLayout(new BorderLayout());
-        setContentPane(backgroundLabel);
+        try {
+            Image backgroundImage = ImageIO.read(new File("background.png"));
+            setContentPane(new ImagePanel(backgroundImage));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Create a JPanel for the menu components
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setOpaque(false);
 
         // Add the Bomberman title
         JLabel titleLabel = new JLabel("Bomberman");
@@ -60,7 +64,7 @@ public class MainMenu extends JFrame {
         menuPanel.add(howToPlayButton);
 
         // Add the menu panel to the frame
-        backgroundLabel.add(menuPanel, BorderLayout.CENTER);
+        add(menuPanel);
 
         // Center the frame on the screen
         setLocationRelativeTo(null);
@@ -78,25 +82,21 @@ public class MainMenu extends JFrame {
         // Display game instructions in a dialog box
         JOptionPane.showMessageDialog(this,
                 "How to Play Bomberman:\n" +
-                        "1. Use the arrow keys to move Bomberman.\n" +
-                        "2. Press Enter to place a bomb.\n" +
-                        "3. The goal is to blow up enemies and walls.\n" +
-                        "4. DO NOT LET THE RED ENEMY TO TOUCH BOMBERMAN or the game will restart.",
+                "1. Use the arrow keys to move Bomberman.\n" +
+                "2. Press Enter to place a bomb.\n" +
+                "3. The goal is to blow up enemies and walls.\n" +
+                "4. DO NOT LET THE RED ENEMY TOUCH BOMBERMAN or the game will restart.",
                 "How to Play", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void playBackgroundMusic(String musicFilePath) {
+    private void playBackgroundMusic(String filePath) {
         try {
-            File musicFile = new File(musicFilePath);
-            if (musicFile.exists()) {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
-                backgroundMusic = AudioSystem.getClip();
-                backgroundMusic.open(audioStream);
-                backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                System.err.println("Background music file not found: " + musicFilePath);
-            }
-        } catch (UnsupportedAudioFileException | LineUnavailableException | Exception e) {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioInputStream);
+            backgroundMusic.start();
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
@@ -109,5 +109,18 @@ public class MainMenu extends JFrame {
             }
         });
     }
-}
 
+    class ImagePanel extends JPanel {
+        private Image backgroundImage;
+
+        public ImagePanel(Image backgroundImage) {
+            this.backgroundImage = backgroundImage;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage, 0, 0, this);
+        }
+    }
+}
