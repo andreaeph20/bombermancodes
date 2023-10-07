@@ -1,0 +1,20 @@
+*How to run the game 
+
+**In order to run the game, navigate to the following file path and simply run the “DTBomberman.jar” file: "\DTBomberman\out\artifacts\DTBomberman_jar\DTBomberman.jar" 
+
+	Open “DTBomberman” 
+
+	Open “out” 
+
+	Open “artifacts” 
+
+	Open “DTBomberman_jar” 
+
+	Double-click on “DTBomberman.jar” 
+
+
+**View source code in: "\DTBomberman\src": 
+
+	Open “DTBomberman” 
+
+	Open “src” 
