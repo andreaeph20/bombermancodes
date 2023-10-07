@@ -7,45 +7,59 @@ import java.awt.event.ActionListener;
 
 public class MainMenu extends JFrame {
     public MainMenu() {
-        // Set up the main menu JFrame
-        setTitle("Bomberman");
+        setTitle("Bomberman Start Menu");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        ImageIcon backgroundImage = new ImageIcon("bombingman.png");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Create a JPanel for the menu components
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBackground(Color.ORANGE);
-
-        // Add the Bomberman title
-        JLabel titleLabel = new JLabel("Bomberman");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        menuPanel.add(titleLabel);
-
-        // Create and add a "Start" button
-        JButton startButton = new JButton("Start");
-        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Start the game when the button is clicked
-                startGame();
+        // Create a JPanel for the menu with no layout manager
+        JPanel menuPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Load and draw the background image
+                ImageIcon backgroundImage = new ImageIcon("background.jpg"); // Replace with your image file path
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
-        });
-        menuPanel.add(startButton);
+        };
 
-        // Create and add a "How to Play" button
+        // Create a transparent panel to overlay on top of the background for UI elements
+        JPanel overlayPanel = new JPanel();
+        overlayPanel.setOpaque(false);
+        overlayPanel.setLayout(new GridLayout(3, 1));
+
+        // Create a label for the game title
+        JLabel titleLabel = new JLabel("Bomberman", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+
+        // Create buttons for "Start Game" and "How to Play"
+        JButton startButton = new JButton("Start Game");
         JButton howToPlayButton = new JButton("How to Play");
-        howToPlayButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        howToPlayButton.addActionListener(new ActionListener() {
+
+        // Add action listeners for the buttons
+        startButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                // Display game instructions when the button is clicked
-                showInstructions();
+                // Start the Bomberman game
+                startBombermanGame();
             }
         });
-        menuPanel.add(howToPlayButton);
+
+        howToPlayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Display instructions on how to play
+                JOptionPane.showMessageDialog(null, "Use the arrow keys to move Bomberman.\nPress Enter to place a bomb.\nBlow up enemies to win.", "How to Play", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        // Add components to the overlay panel
+        overlayPanel.add(titleLabel);
+        overlayPanel.add(startButton);
+        overlayPanel.add(howToPlayButton);
+
+        // Add the overlay panel to the menu panel
+        menuPanel.setLayout(new BorderLayout());
+        menuPanel.add(overlayPanel, BorderLayout.CENTER);
 
         // Add the menu panel to the frame
         add(menuPanel);
@@ -53,7 +67,6 @@ public class MainMenu extends JFrame {
         // Center the frame on the screen
         setLocationRelativeTo(null);
     }
-
     private void startGame() {
     	Main game = new Main();
          game.Start();
