@@ -21,7 +21,7 @@ public class MainMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Load background image
-        ImageIcon backgroundImage = new ImageIcon("Bombingman.png");
+        ImageIcon backgroundImage = new ImageIcon("background.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new BorderLayout());
         setContentPane(backgroundLabel);
@@ -66,7 +66,7 @@ public class MainMenu extends JFrame {
         setLocationRelativeTo(null);
 
         // Play background music
-        playBackgroundMusic("bmanintro.wav");
+        playBackgroundMusic("background.wav");
     }
 
     private void startGame() {
